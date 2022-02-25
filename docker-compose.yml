@@ -1,0 +1,29 @@
+version: '3.9'
+services:
+  sendapp:
+    build: ./send
+    restart: always
+    depends_on:
+      - "rabbitmq"
+      
+  receiveapp:
+    build: ./receive
+    restart: always
+    depends_on:
+      - "rabbitmq"
+      
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: "rabbitmq"
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitun
+      - RABBITMQ_DEFAULT_PASS=rabbitpw
+    ports:
+      - "4369:4369"
+      - "5671:5671"
+      - "5672:5672"
+      - "25672:25672"
+      - "15671:15671"
+      - "15672:15672"
+    logging:
+      driver: none
